@@ -5,6 +5,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import Link from "next/link"
 import {
   Form,
   FormControl,
@@ -92,12 +93,12 @@ export function LoginForm({
                     <FormItem className="grid gap-3">
                       <div className="flex items-center">
                         <FormLabel htmlFor="password">Password</FormLabel>
-                        <a
-                          href="#"
+                        <Link
+                          href="/forgot-password"
                           className="ml-auto text-sm underline-offset-2 hover:underline"
                         >
                           Forgot your password?
-                        </a>
+                        </Link>
                       </div>
                       <FormControl>
                         <PasswordInput id="password" required {...field} />
@@ -145,9 +146,9 @@ export function LoginForm({
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
+                  <Link href="/register" className="underline underline-offset-4">
                     Sign up
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>
@@ -161,8 +162,8 @@ export function LoginForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <Link href="/terms">Terms of Service</Link>{" "}
+        and <Link href="/privacy">Privacy Policy</Link>.
       </div>
     </div>
   )
