@@ -60,9 +60,8 @@ export default function ResetPasswordPreview() {
     }
   }
 
-  return (
-    <div className="flex min-h-[50vh] h-full w-full items-center justify-center px-4">
-      <Card className="mx-auto max-w-sm">
+  return (    <div className="flex min-h-[50vh] h-full items-center justify-center">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle className="text-2xl">Reset Password</CardTitle>
           <CardDescription>
