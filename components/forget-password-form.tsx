@@ -87,13 +87,23 @@ export function ForgetPasswordForm({
                 <Button type="submit" className="w-full">
                   Send Reset Link
                 </Button>
+                <div className="text-center">
+                  <Link
+                    href="/login"
+                    className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4"
+                  >
+                    Back to Login
+                  </Link>
+                </div>
               </div>
             </form>
           </Form>
         </CardContent>
-      </Card>      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <Link href="/terms">Terms of Service</Link>{" "}
-        and <Link href="/privacy">Privacy Policy</Link>.
+      </Card>
+      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+        By clicking continue, you agree to our{" "}
+        <Link href="/terms">Terms of Service</Link> and{" "}
+        <Link href="/privacy">Privacy Policy</Link>.
       </div>
     </div>
   )
