@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Download, Filter, Plus, Search } from "lucide-react"
+import Link from "next/link"
 
 // Sample data for demonstration
 const samples = [
@@ -77,9 +78,11 @@ export default function SamplesPage() {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Sample
+          <Button size="sm" asChild>
+            <Link href="/home/upload">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Sample
+            </Link>
           </Button>
         </div>
       </div>
