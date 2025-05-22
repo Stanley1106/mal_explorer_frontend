@@ -1,17 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {
-  Database,
-  FileCode2,
-  Home,
-  Network,
-  Shield,
-  FileBarChart,
-  Settings,
-  Upload,
-  Users,
-} from "lucide-react"
+import { Database, FileCode2, Home, Network, Shield, FileBarChart, Settings, Upload, Users, Search, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -27,7 +17,10 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
+  useSidebar,
 } from "@/components/ui/sidebar"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { NavUser } from "@/components/nav-user"
 
 // Sample user data
@@ -41,129 +34,156 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
+  const { toggleSidebar, state } = useSidebar()
+  const [searchTerm, setSearchTerm] = React.useState("")
 
   const mainNavItems = [
     {
       title: "Dashboard",
-      url: "/",
+      url: "/home/dashboard",
       icon: Home,
-      isActive: pathname === "/",
+      isActive: pathname === "/home" || pathname === "/home/dashboard",
     },
     {
       title: "Samples",
-      url: "/samples",
+      url: "/home/samples",
       icon: Database,
-      isActive: pathname === "/samples" || pathname.startsWith("/sample/"),
+      isActive: pathname === "/home/samples" || pathname.startsWith("/home/sample/"),
     },
     {
       title: "Features",
-      url: "/features",
+      url: "/home/features",
       icon: FileCode2,
-      isActive: pathname === "/features" || pathname.startsWith("/feature/"),
+      isActive: pathname === "/home/features" || pathname.startsWith("/home/feature/"),
     },
     {
       title: "Evolution",
-      url: "/evolution",
+      url: "/home/evolution",
       icon: Network,
-      isActive: pathname === "/evolution",
+      isActive: pathname === "/home/evolution",
     },
     {
       title: "Threat Intel",
-      url: "/intelligence",
+      url: "/home/intelligence",
       icon: Shield,
-      isActive: pathname === "/intelligence",
+      isActive: pathname === "/home/intelligence",
     },
     {
       title: "Reports",
-      url: "/reports",
+      url: "/home/reports",
       icon: FileBarChart,
-      isActive: pathname === "/reports",
+      isActive: pathname === "/home/reports",
     },
   ]
 
   const utilityNavItems = [
     {
       title: "Upload Sample",
-      url: "/upload",
+      url: "/home/upload",
       icon: Upload,
-      isActive: pathname === "/upload",
+      isActive: pathname === "/home/upload",
     },
     {
       title: "Team",
-      url: "/team",
+      url: "/home/team",
       icon: Users,
-      isActive: pathname === "/team",
+      isActive: pathname === "/home/team",
     },
     {
       title: "Settings",
-      url: "/settings",
+      url: "/home/settings",
       icon: Settings,
-      isActive: pathname === "/settings",
+      isActive: pathname === "/home/settings",
     },
   ]
 
-  return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <Link href="/">
-                <div className="flex items-center font-bold text-xl">
-                  <span className="text-primary mr-1">Malware</span>
-                  <span>Analysis</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {mainNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={item.isActive}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+  // Filter navigation items based on search term
+  const filteredMainNavItems = mainNavItems.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Utilities</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {utilityNavItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={item.isActive}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+  const filteredUtilityNavItems = utilityNavItems.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  return (
+    <Sidebar collapsible="icon" variant="inset" {...props}>
+      <SidebarHeader className="flex flex-col gap-2">
+        <div className="flex items-center justify-between px-2">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
+                <Link href="/home/dashboard">
+                  <div className="flex items-center font-bold text-xl">
+                    <span className="text-primary mr-1">Malware</span>
+                    <span>Analysis</span>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+
+          <Button variant="ghost" size="icon" onClick={toggleSidebar} className="group-data-[collapsible=icon]:hidden">
+            {state === "expanded" ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+          </Button>
+        </div>
+
+        <div className="px-2 group-data-[collapsible=icon]:hidden">
+          <div className="relative">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search..."
+              className="pl-8"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+      </SidebarHeader>
+
+      <SidebarContent>
+        {filteredMainNavItems.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {filteredMainNavItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {filteredUtilityNavItems.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Utilities</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {filteredUtilityNavItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
-      <SidebarFooter>        
+
+      <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
       <SidebarRail />

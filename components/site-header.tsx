@@ -1,49 +1,36 @@
 "use client"
 
-import { SidebarIcon } from "lucide-react"
-
-import { SearchForm } from "@/components/search-form"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import type React from "react"
+import { Bell, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { useSidebar } from "@/components/ui/sidebar"
+import { SidebarTrigger } from "@/components/ui/sidebar"
+import { ModeToggle } from "@/components/mode-toggle"
+import { cn } from "@/lib/utils"
 
-export function SiteHeader() {
-  const { toggleSidebar } = useSidebar()
+interface SiteHeaderProps extends React.HTMLAttributes<HTMLElement> {}
 
+export function SiteHeader({ className, ...props }: SiteHeaderProps) {
   return (
-    <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
-      <div className="flex h-(--header-height) w-full items-center gap-2 px-4">
-        <Button
-          className="h-8 w-8"
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-        >
-          <SidebarIcon />
+    <header
+      className={cn("sticky top-0 z-50 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6", className)}
+      {...props}
+    >
+      <SidebarTrigger />
+
+      <div className="flex-1" />
+
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon">
+          <Bell className="h-5 w-5" />
+          <span className="sr-only">Notifications</span>
         </Button>
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        <Breadcrumb className="hidden sm:block">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="#">
-                Building Your Application
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <SearchForm className="w-full sm:ml-auto sm:w-auto" />
+
+        <Button variant="ghost" size="icon">
+          <HelpCircle className="h-5 w-5" />
+          <span className="sr-only">Help</span>
+        </Button>
+
+        <ModeToggle />
       </div>
     </header>
   )
