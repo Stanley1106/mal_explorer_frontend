@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Database, FileCode2, Home, Network, Shield, FileBarChart, Settings, Upload, Users, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Database, FileCode2, Home, Network, Shield, FileBarChart, Settings, Upload, Users, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -42,6 +42,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       url: "/home/dashboard",
       icon: Home,
       isActive: pathname === "/home" || pathname === "/home/dashboard",
+    },
+    {
+      title: "Search",
+      url: "/home/search",
+      icon: Search,
+      isActive: pathname === "/home" || pathname === "/home/search",
     },
     {
       title: "Samples",
