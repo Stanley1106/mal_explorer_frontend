@@ -1,7 +1,8 @@
+// filepath: components\app-sidebar.tsx
 "use client"
 
 import * as React from "react"
-import { Database, FileCode2, Home, Network, Shield, FileBarChart, Settings, Upload, Users, Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Database, FileCode2, Home, Network, Shield, FileBarChart, Settings, Upload, Users, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -19,7 +20,6 @@ import {
   SidebarGroupContent,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { NavUser } from "@/components/nav-user"
 
@@ -35,7 +35,6 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname()
   const { toggleSidebar, state } = useSidebar()
-  const [searchTerm, setSearchTerm] = React.useState("")
 
   const mainNavItems = [
     {
@@ -72,15 +71,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       isActive: pathname === "/home/settings",
     },
   ]
-
-  // Filter navigation items based on search term
-  const filteredMainNavItems = mainNavItems.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
-
-  const filteredUtilityNavItems = utilityNavItems.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  // Navigation items ready to be displayed
 
   return (
     <Sidebar collapsible="icon" variant="inset" {...props}>
@@ -102,61 +93,44 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <Button variant="ghost" size="icon" onClick={toggleSidebar} className="group-data-[collapsible=icon]:hidden">
             {state === "expanded" ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
           </Button>
-        </div>
-
-        <div className="px-2 group-data-[collapsible=icon]:hidden">
-          <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search..."
-              className="pl-8"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </div>
-      </SidebarHeader>
-
+        </div>      </SidebarHeader>      
+      
       <SidebarContent>
-        {filteredMainNavItems.length > 0 && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {filteredMainNavItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
-
-        {filteredUtilityNavItems.length > 0 && (
-          <SidebarGroup>
-            <SidebarGroupLabel>Utilities</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {filteredUtilityNavItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        <SidebarGroup>
+          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {mainNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
+        <SidebarGroup>
+          <SidebarGroupLabel>Utilities</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {utilityNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter>
