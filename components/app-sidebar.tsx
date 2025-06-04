@@ -56,24 +56,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       icon: FileCode2,
       isActive: pathname === "/home/features" || pathname.startsWith("/home/feature/"),
     },
-    {
-      title: "Evolution",
-      url: "/home/evolution",
-      icon: Network,
-      isActive: pathname === "/home/evolution",
-    },
-    {
-      title: "Threat Intel",
-      url: "/home/intelligence",
-      icon: Shield,
-      isActive: pathname === "/home/intelligence",
-    },
-    {
-      title: "Reports",
-      url: "/home/reports",
-      icon: FileBarChart,
-      isActive: pathname === "/home/reports",
-    },
   ]
 
   const utilityNavItems = [
@@ -82,12 +64,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       url: "/home/upload",
       icon: Upload,
       isActive: pathname === "/home/upload",
-    },
-    {
-      title: "Team",
-      url: "/home/team",
-      icon: Users,
-      isActive: pathname === "/home/team",
     },
     {
       title: "Settings",
