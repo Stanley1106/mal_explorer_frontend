@@ -1,71 +1,39 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Download, Filter, Plus, Search } from "lucide-react"
+import { Download, Plus } from "lucide-react"
 import Link from "next/link"
-
-// Sample data for demonstration
-const samples = [
-  {
-    id: "S-001",
-    name: "Trojan.Win32.Agent",
-    type: "Trojan",
-    platform: "Windows",
-    date: "2023-05-15",
-    status: "Analyzed",
-  },
-  {
-    id: "S-002",
-    name: "Backdoor.Linux.Mirai",
-    type: "Backdoor",
-    platform: "Linux",
-    date: "2023-05-14",
-    status: "Analyzing",
-  },
-  {
-    id: "S-003",
-    name: "Ransomware.Win64.WannaCry",
-    type: "Ransomware",
-    platform: "Windows",
-    date: "2023-05-12",
-    status: "Analyzed",
-  },
-  {
-    id: "S-004",
-    name: "Worm.Win32.Conficker",
-    type: "Worm",
-    platform: "Windows",
-    date: "2023-05-10",
-    status: "Analyzed",
-  },
-  {
-    id: "S-005",
-    name: "Adware.MacOS.Pirrit",
-    type: "Adware",
-    platform: "MacOS",
-    date: "2023-05-08",
-    status: "Analyzed",
-  },
-  {
-    id: "S-006",
-    name: "Rootkit.Linux.Azazel",
-    type: "Rootkit",
-    platform: "Linux",
-    date: "2023-05-05",
-    status: "Analyzing",
-  },
-  {
-    id: "S-007",
-    name: "Spyware.Android.Pegasus",
-    type: "Spyware",
-    platform: "Android",
-    date: "2023-05-03",
-    status: "Analyzed",
-  },
-]
+import { SampleSearch, SampleTable, sampleData } from "@/components/samples"
+import { useState } from "react"
 
 export default function SamplesPage() {
+  const [samples, setSamples] = useState(sampleData);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    if (!term.trim()) {
+      setSamples(sampleData);
+      return;
+    }
+    
+    const filtered = sampleData.filter(
+      sample => 
+        sample.name.toLowerCase().includes(term.toLowerCase()) ||
+        sample.type.toLowerCase().includes(term.toLowerCase()) ||
+        sample.platform.toLowerCase().includes(term.toLowerCase()) ||
+        sample.id.toLowerCase().includes(term.toLowerCase())
+    );
+    
+    setSamples(filtered);
+  };
+
+  const handleFilter = () => {
+    // This would open a more complex filter dialog in a real application
+    console.log("Filter button clicked");
+  };
+
   return (
     <div className="flex-1 p-6 overflow-auto">
       <div className="flex items-center justify-between">
@@ -91,55 +59,9 @@ export default function SamplesPage() {
         <CardHeader>
           <CardTitle>Sample Repository</CardTitle>
           <CardDescription>Browse and manage your malware samples</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search samples..." className="pl-8" />
-            </div>
-            <Button variant="outline" size="icon">
-              <Filter className="h-4 w-4" />
-              <span className="sr-only">Filter</span>
-            </Button>
-          </div>
-
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Platform</TableHead>
-                  <TableHead>Date Added</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {samples.map((sample) => (
-                  <TableRow key={sample.id}>
-                    <TableCell className="font-medium">{sample.id}</TableCell>
-                    <TableCell>{sample.name}</TableCell>
-                    <TableCell>{sample.type}</TableCell>
-                    <TableCell>{sample.platform}</TableCell>
-                    <TableCell>{sample.date}</TableCell>
-                    <TableCell>
-                      <div
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                          sample.status === "Analyzing"
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-                        }`}
-                      >
-                        {sample.status}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+        </CardHeader>        <CardContent>
+          <SampleSearch onSearch={handleSearch} onFilter={handleFilter} />
+          <SampleTable samples={samples} />
         </CardContent>
       </Card>
     </div>

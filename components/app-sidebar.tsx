@@ -21,7 +21,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/navigation"
 
 // Sample user data
 const data = {
