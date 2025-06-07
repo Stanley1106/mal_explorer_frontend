@@ -7,6 +7,7 @@ import { CodeBlock, FeatureDetailTabs } from "@/components/features";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Feature } from "@/lib/types";
 import React from "react";
+import { FileText, Activity, Tag } from "lucide-react";
 
 interface FeatureDetailPageProps {
   params: {
@@ -30,11 +31,15 @@ export default function FeatureDetailPage({ params }: FeatureDetailPageProps) {
   return (
     <div className="flex flex-col gap-6 p-6">
       {/* Header with breadcrumb */}      <div>
-        <div className="mb-2">
-          <Link href="/home/features" className="text-sm text-muted-foreground hover:text-primary">
-            ← Back to all features
+        <div className="mb-4">
+          <Link 
+            href="/home/features" 
+            className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md text-muted-foreground hover:text-primary bg-secondary/50 hover:bg-secondary transition-colors duration-200"
+          >
+            <span className="mr-1">←</span> Back to all features
           </Link>
-        </div>        <h1 className="text-3xl font-bold">{feature.name}</h1>
+        </div>
+        <h1 className="text-3xl font-bold">{feature.name}</h1>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">        {/* Main content */}        <div className="col-span-2 flex flex-col gap-6">          {/* Code blocks using client component */}
@@ -42,12 +47,14 @@ export default function FeatureDetailPage({ params }: FeatureDetailPageProps) {
             bytePattern={feature.bytePattern}
             pseudoCode={feature.pseudoCode}
             yara={feature.yara}
-          />
-          {/* Notes */}
+          />          {/* Notes */}
           {feature.notes && (
             <Card>
               <CardHeader>
-                <h2 className="text-xl font-semibold">Notes</h2>
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <h2 className="text-xl font-semibold">Notes</h2>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="whitespace-pre-wrap">{feature.notes}</div>
@@ -57,11 +64,13 @@ export default function FeatureDetailPage({ params }: FeatureDetailPageProps) {
         </div>
 
         {/* Sidebar */}
-        <div className="flex flex-col gap-6">
-          {/* Behaviors */}
+        <div className="flex flex-col gap-6">          {/* Behaviors */}
           <Card>
             <CardHeader>
-              <h2 className="text-xl font-semibold">Behaviors</h2>
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold">Behaviors</h2>
+              </div>
             </CardHeader>
             <CardContent>
               {feature.behaviors.length > 0 ? (
@@ -77,12 +86,13 @@ export default function FeatureDetailPage({ params }: FeatureDetailPageProps) {
                 <p className="text-muted-foreground">No behaviors documented</p>
               )}
             </CardContent>
-          </Card>
-
-          {/* Tags */}
+          </Card>          {/* Tags */}
           <Card>
             <CardHeader>
-              <h2 className="text-xl font-semibold">Tags</h2>
+              <div className="flex items-center gap-2">
+                <Tag className="h-5 w-5 text-primary" />
+                <h2 className="text-xl font-semibold">Tags</h2>
+              </div>
             </CardHeader>
             <CardContent>
               {feature.tags.length > 0 ? (
