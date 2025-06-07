@@ -21,25 +21,22 @@ export default async function FeatureDetailPage({ params }: FeatureDetailPagePro
 
   return (
     <div className="flex flex-col gap-6 p-6">
-      {/* Header with breadcrumb */}
-      <div>
+      {/* Header with breadcrumb */}      <div>
         <div className="mb-2">
           <Link href="/home/features" className="text-sm text-muted-foreground hover:text-primary">
             ← Back to all features
           </Link>
-        </div>
-        <h1 className="text-3xl font-bold">{feature.name}</h1>
-        {feature.binaryFunction && (
-          <p className="mt-2 text-muted-foreground">
-            Binary function: <span className="font-mono">{feature.binaryFunction}</span>
-          </p>
-        )}
+        </div>        <h1 className="text-3xl font-bold">{feature.name}</h1>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main content */}
         <div className="col-span-2 flex flex-col gap-6">
           {/* Code blocks */}
+          {feature.bytePattern && (
+            <CodeBlock title="Byte Pattern" code={feature.bytePattern} />
+          )}
+          
           {feature.pseudoCode && (
             <CodeBlock title="Pseudo Code" code={feature.pseudoCode} />
           )}

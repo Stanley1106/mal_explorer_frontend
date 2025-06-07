@@ -4,7 +4,7 @@ import { Feature } from "./types";
 const mockFeatures: Feature[] = Array.from({ length: 50 }, (_, index) => ({
   id: `feature-${index + 1}`,
   name: `Sample Feature ${index + 1}`,
-  binaryFunction: `sub_${(Math.random() * 1000000).toFixed(0)}`,
+  bytePattern: Array.from({ length: 8 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0').toUpperCase()).join(' '),
   pseudoCode: `function sample${index + 1}() {\n  // Initialize variables\n  int x = 0;\n  for(int i = 0; i < 10; i++) {\n    x += i;\n  }\n  return x;\n}`,
   yara: `rule sample_feature_${index + 1} {\n  meta:\n    description = "Sample feature ${index + 1}"\n    author = "Dev Team"\n  strings:\n    $s1 = "sample string"\n  condition:\n    $s1\n}`,
   notes: `This is a sample feature with index ${index + 1}. It demonstrates typical malware behavior.`,

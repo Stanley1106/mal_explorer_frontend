@@ -1,7 +1,7 @@
 export interface Feature {
   id: string;
   name: string;
-  binaryFunction: string;
+  bytePattern: string;
   pseudoCode: string;
   yara: string;
   notes: string;
