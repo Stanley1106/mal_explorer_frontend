@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CodeBlock } from "@/components/features";
+import { CodeBlock, FeatureDetailTabs } from "@/components/features";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Feature } from "@/lib/types";
+import React from "react";
 
 interface FeatureDetailPageProps {
   params: {
@@ -12,8 +14,14 @@ interface FeatureDetailPageProps {
   };
 }
 
-export default async function FeatureDetailPage({ params }: FeatureDetailPageProps) {
-  const feature = await fetchFeatureById(params.id);
+export default function FeatureDetailPage({ params }: FeatureDetailPageProps) {
+  // Unwrap params using React.use()
+  const unwrappedParams = React.use(Promise.resolve(params));
+  const featureId = unwrappedParams.id;
+  
+  // Fetch the feature data server-side
+  const featurePromise = fetchFeatureById(featureId);
+  const feature = React.use(featurePromise);
   
   if (!feature) {
     notFound();
@@ -29,22 +37,12 @@ export default async function FeatureDetailPage({ params }: FeatureDetailPagePro
         </div>        <h1 className="text-3xl font-bold">{feature.name}</h1>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Main content */}
-        <div className="col-span-2 flex flex-col gap-6">
-          {/* Code blocks */}
-          {feature.bytePattern && (
-            <CodeBlock title="Byte Pattern" code={feature.bytePattern} />
-          )}
-          
-          {feature.pseudoCode && (
-            <CodeBlock title="Pseudo Code" code={feature.pseudoCode} />
-          )}
-          
-          {feature.yara && (
-            <CodeBlock title="YARA Rule" code={feature.yara} />
-          )}
-          
+      <div className="grid gap-6 lg:grid-cols-3">        {/* Main content */}        <div className="col-span-2 flex flex-col gap-6">          {/* Code blocks using client component */}
+          <FeatureDetailTabs 
+            bytePattern={feature.bytePattern}
+            pseudoCode={feature.pseudoCode}
+            yara={feature.yara}
+          />
           {/* Notes */}
           {feature.notes && (
             <Card>
