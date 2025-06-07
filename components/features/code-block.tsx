@@ -1,17 +1,17 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ClipboardIcon, ClipboardCheckIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 interface CodeBlockProps {
-  title: string;
+  title?: string;
   code: string;
+  showHeader?: boolean;
 }
 
-export function CodeBlock({ title, code }: CodeBlockProps) {
+export function CodeBlock({ title, code, showHeader = true }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -33,31 +33,48 @@ export function CodeBlock({ title, code }: CodeBlockProps) {
       });
     }
   };
-
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="bg-muted py-2 flex flex-row items-center justify-between">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={copyToClipboard}
-          className="h-8 w-8 p-0"
-          aria-label="Copy code"
-          title="Copy code"
-        >
-          {copied ? (
-            <ClipboardCheckIcon className="h-4 w-4 text-green-500" />
-          ) : (
-            <ClipboardIcon className="h-4 w-4" />
-          )}
-        </Button>
-      </CardHeader>
-      <CardContent className="p-0">
-        <pre className="overflow-x-auto bg-zinc-950 p-4 text-sm text-zinc-50">
+    <div className="overflow-hidden">
+      {showHeader && (
+        <div className="bg-muted py-2 px-4 flex flex-row items-center justify-between">
+          {title && <div className="text-sm font-medium">{title}</div>}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={copyToClipboard}
+            className="h-8 w-8 p-0 ml-auto"
+            aria-label="Copy code"
+            title="Copy code"
+          >
+            {copied ? (
+              <ClipboardCheckIcon className="h-4 w-4 text-green-500" />
+            ) : (
+              <ClipboardIcon className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+      )}
+      <div className="p-4 relative">
+        <pre className="overflow-x-auto bg-zinc-950 p-4 text-sm text-zinc-50 rounded-md max-h-[300px]">
           <code>{code}</code>
         </pre>
-      </CardContent>
-    </Card>
+        {!showHeader && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={copyToClipboard}
+            className="h-8 w-8 p-0 absolute top-6 right-6 bg-zinc-800/70 hover:bg-zinc-700"
+            aria-label="Copy code"
+            title="Copy code"
+          >
+            {copied ? (
+              <ClipboardCheckIcon className="h-4 w-4 text-green-500" />
+            ) : (
+              <ClipboardIcon className="h-4 w-4 text-zinc-50" />
+            )}
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }

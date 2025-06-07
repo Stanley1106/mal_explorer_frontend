@@ -25,11 +25,10 @@ export function FeatureDetailTabs({ bytePattern, pseudoCode, yara }: FeatureDeta
   
   // If no tabs are available, return null
   if (availableTabs.length === 0) return null;
-  
-  return (
-    <Card>
+    return (
+    <Card className="overflow-hidden">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full">
+        <TabsList className="w-full border-b bg-muted/50">
           {bytePattern && (
             <TabsTrigger value="byte-pattern">Byte Pattern</TabsTrigger>
           )}
@@ -40,22 +39,21 @@ export function FeatureDetailTabs({ bytePattern, pseudoCode, yara }: FeatureDeta
             <TabsTrigger value="yara-rule">YARA Rule</TabsTrigger>
           )}
         </TabsList>
-        
-        {bytePattern && (
-          <TabsContent value="byte-pattern" className="mt-0">
-            <CodeBlock title="Byte Pattern" code={bytePattern} />
+          {bytePattern && (
+          <TabsContent value="byte-pattern" className="mt-0 border-0 p-0">
+            <CodeBlock code={bytePattern} showHeader={false} />
           </TabsContent>
         )}
         
         {pseudoCode && (
-          <TabsContent value="pseudo-code" className="mt-0">
-            <CodeBlock title="Pseudo Code" code={pseudoCode} />
+          <TabsContent value="pseudo-code" className="mt-0 border-0 p-0">
+            <CodeBlock code={pseudoCode} showHeader={false} />
           </TabsContent>
         )}
         
         {yara && (
-          <TabsContent value="yara-rule" className="mt-0">
-            <CodeBlock title="YARA Rule" code={yara} />
+          <TabsContent value="yara-rule" className="mt-0 border-0 p-0">
+            <CodeBlock code={yara} showHeader={false} />
           </TabsContent>
         )}
       </Tabs>
